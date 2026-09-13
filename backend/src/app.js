@@ -2,7 +2,7 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const multer = require("multer")
-
+const path = require('path')
 const app = express()
 
 app.use(express.json())
@@ -37,6 +37,13 @@ app.use((err, req, res, next) => {
     })
 })
 
+// Serve React build
+app.use(express.static(path.join(__dirname, "../public")));
+
+// React Router
+app.get("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
 
 
 module.exports = app
